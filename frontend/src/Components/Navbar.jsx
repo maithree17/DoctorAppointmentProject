@@ -15,7 +15,7 @@ function Navbar() {
 
   <img src={assets.logo} alt="Logo" className="w-32 cursor-pointer" />
 
-  <ul className="hidden md:flex items-center gap-5 font-medium">
+  <ul className="flex items-center gap-8 md:gap-6 sm:gap-4 text-base md:text-sm sm:text-xs">
 
     <NavLink to='/' >
       <li className="cursor-pointer" >HOME</li>
