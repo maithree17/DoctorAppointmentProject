@@ -20,7 +20,7 @@ function Headers() {
 
       {/*-------RIGHT SIDE---------*/}
       <div className='md:w-1/2 flex items-center justify-center relative'>
-        <img className='w-full md:absolute h-auto rounded-lg flex ' src={assets.header_img} alt="header image"/>
+        <img className='w-full max-w-md lg:max-w-lg rounded-xl shadow-2xl ' src={assets.header_img} alt="header image"/>
       </div>
 
     </div>

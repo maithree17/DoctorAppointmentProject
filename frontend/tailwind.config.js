@@ -10,6 +10,9 @@ module.exports = {
         primary: '#3d4eea',
         grey: '#f4f7fe',
       },
+      gridTemplateColumns:{
+        'auto': 'repeat(auto-fill, minmax(200px, 1fr))',
+      }
     },
   },
   plugins: [],
