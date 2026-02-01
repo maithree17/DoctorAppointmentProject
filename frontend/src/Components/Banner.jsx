@@ -10,8 +10,8 @@ function Banner() {
         {/*------LEFT SIDE-------*/}
         <div className='flex-1 py-8 sm:py-10 md:py-16 lg:py-24 lg:pl-5'>
             <div className='text-xl sm:text-1xl md:text-2xl lg:text-4xl font-semibold text-white'>
-                <p>BOOK APPOINTMENT</p>
-                <p>WITH 100+ TRUSTED DOCTORS</p>
+                <p>BOOK YOUR SLOT</p>
+                <p>IN MINUTES WITH VERIFIED DOCTORS</p>
             </div>
             <button onClick={()=>{navigate('/login');screenTop(0,0)}} className='bg-white text-sm sm:text-gray-600 px-8 py-3 rounded-full mt-6 hover:bg-gray-200 transition-all duration-300 ease-out hover:scale-105 hover:shadow-lg
     active:scale-95'>Create Account</button>

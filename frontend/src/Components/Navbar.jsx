@@ -13,7 +13,7 @@ function Navbar() {
   return (
 <div className="flex items-center justify-between text-sm py-1 mb-5 border-b border-gray-300">
 
-  <img src={assets.logo} alt="Logo" className="w-32 cursor-pointer" />
+  <img onClick={()=>navigate('/')}  src={assets.logo} alt="Logo" className="w-32 cursor-pointer" />
 
   <ul className="flex items-center gap-8 md:gap-6 sm:gap-4 text-base md:text-sm sm:text-xs">
 
