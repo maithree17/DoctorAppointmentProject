@@ -29,6 +29,7 @@ function Doctor() {
   useEffect(()=>{
     applyFilter();
   },[doctors,speciality])
+  
   return (
     <div className='gap-4'>
       <p className='text-gray-700'>Browse the doctors through speciality</p>
