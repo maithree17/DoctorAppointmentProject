@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes,Route } from 'react-router-dom'
+import { Routes,Route ,useLocation} from 'react-router-dom'
 import Home from './Pages/Home.jsx'
 import Doctor from './Pages/Doctor.jsx'
 import Contact from './Pages/Contact.jsx'
@@ -11,7 +11,10 @@ import Appointment from './Pages/Appointment.jsx'
 import Nav from './Components/Navbar.jsx'
 import Footer from './Components/Footer'
 
+
 function App() {
+  const location = useLocation()
+  const hideFooter = location.pathname === '/login'
   return (
     <div className='mx-4 sm:mx-[10%]'>
       <Nav/>
@@ -26,7 +29,7 @@ function App() {
         <Route path='/myappointment' element={<MyAppointment/>} />
         <Route path='/appointment/:docId' element={<Appointment/>} />
       </Routes>
-      <Footer/>
+      {!hideFooter && <Footer/>}
 
     </div>
   )
