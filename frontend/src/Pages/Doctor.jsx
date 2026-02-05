@@ -45,7 +45,7 @@ function Doctor() {
         <div className='w-full grid grid-cols-auto gap-5 gap-y-6'>
           {
             filterDocBySpeciality.map((doc,idx)=>(
-                    <div onClick={()=>navigate(`./appointment/${doc._id}`)} key={idx} className='flex flex-col items-center gap-2 border border-blue-200 rounded-lg p-4 hover:shadow-lg hover:scale-100 transition-all duration-500 cursor-pointer'>
+                    <div onClick={()=>navigate(`/appointment/${doc._id}`)} key={idx} className='flex flex-col items-center gap-2 border border-blue-200 rounded-lg p-4 hover:shadow-lg hover:scale-100 transition-all duration-500 cursor-pointer'>
                         <img className='w-24 h-24 sm:w-24 sm:h-24 rounded-full object-cover shadow-md border border-gray-200' src={doc.image} alt={doc._id}/>
                         <div className='p-4'>
                             <div className='flex items-center gap-2 text-sm text-center text-green-500'>
