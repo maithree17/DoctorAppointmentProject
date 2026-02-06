@@ -102,7 +102,7 @@ function Appointment() {
           <img className='bg-blue-500 w-full sm:max-w-64 rounded-lg' src={Doctorinformation.image} alt="doc image" />
         </div>
 
-        <div className='flex-1 border border-gray-400 rounded-lg p-7 py-7 bg-white mx-2 sm:mx-0 mt-[-80px] sm:mt-0'>
+        <div className='flex-1 border border-gray-400 rounded-lg p-6 sm:p-7 bg-white mx-2 sm:mx-0 mt-4 sm:mt-0'>
           {/*----Doc info----*/}
           <p className='flex items-center gap-2 text-2xl font-medium'>{Doctorinformation.name}
             <img className='w-5' src={assets.verified_icon} alt="verified" />
