@@ -1,11 +1,18 @@
 import React, { useContext } from 'react'
 import { assets } from '../assets/assets'
 import { AdminContext } from '../context/adminContext'
+import {useNavigate} from 'react-router-dom'
 
 function Navbar() {
 
-  const { atoken, setAtoken } = useContext(AdminContext)
+  const { atoken, setatoken } = useContext(AdminContext)
+  const navigate=useNavigate()
 
+  const logout =()=>{
+    navigate('/')
+    atoken && setatoken('')
+    atoken && localStorage.removeItem('atoken')
+  }
 
   return (
     <div className="w-full bg-white border-b shadow-sm">
@@ -16,7 +23,7 @@ function Navbar() {
       <h1 className="text-2xl font-semibold text-gray-800">Admin Panel</h1>
     </div>
 
-    <button className="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-1.5 rounded-full font-medium transition">Logout</button>
+    <button onClick={logout} className="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-1.5 rounded-full font-medium transition">Logout</button>
 
   </div>
 </div>
