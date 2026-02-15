@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useState } from "react";
-import {AdminContext} from '../context/adminContext.jsx'
+import {AdminContext} from '../context/AdminContext.jsx'
 import axios from 'axios'
 import { toast } from "react-toastify";
 

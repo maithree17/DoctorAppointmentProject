@@ -12,7 +12,7 @@ function Adddoctor() {
   const [email,setemail] =useState("")
   const [password,setpassword] =useState("")
   const [experience,setexperience] =useState("1 Year")
-  const [fees,setfees] =useState("")
+  const [fees,setfees] =useState(0)
   const [about,setabout] =useState("")
   const [speciality,setspeciality] =useState("General Physician")
   const [degree,setdegree] =useState("")
@@ -36,7 +36,7 @@ function Adddoctor() {
         formdata.append('degree',degree)
         formdata.append('experience',experience)
         formdata.append('about',about)
-        formdata.append('fees',Number(fees))
+        formdata.append('fees',fees)
         formdata.append('address',JSON.stringify({line1:address1,lin2:address2}))
 
         formdata.forEach((value,key)=>{
@@ -46,13 +46,26 @@ function Adddoctor() {
         const {data} =await axios.post(backendURL+'/api/admin/add-doctor',formdata,{headers:{atoken}})
 
         if(data.success){
-          toast.success(data.success)
+          toast.success(data.message)
+          setdocimg(false)
+          setname("")
+          setemail("")
+          setpassword("")
+          setexperience("1 Year")
+          setfees("")
+          setabout("")
+          setspeciality("General Physician")
+          setdegree("")
+          setaddress1("")
+          setaddress2("")
+
         }else{
           toast.error(data.message)
         }
 
     }catch(error){
-
+      toast.error(error.message)
+      console.log(error)
     }
   }
 
@@ -104,7 +117,7 @@ function Adddoctor() {
 
           <div>
             <p className="text-sm font-medium mb-1">Speciality</p>
-            <select onChange={(e)=>setspeciality(e.target.value)} value={speciality} className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <select onChange={(e)=>setspeciality(Number(e.target.value))} value={speciality} className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
               <option>General Physician</option>
               <option>Gynecologist</option>
               <option>Dermatologist</option>
