@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { AppContext } from '../Context/AppContext'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 function Login() {
   const [state,setstate] =useState('Sign Up')
@@ -6,14 +9,37 @@ function Login() {
   const [password,setpassword] =useState('')
   const [name,setname] =useState('')
 
+  const {token,settoken,backendURL} =useContext(AppContext)
+
   const submithandler= async (event)=>{
     event.preventDefault()
-
+    try{
+      if(state==='Sign Up')
+      {
+        const {data} =await axios.post(backendURL+'/api/user/register',{name,password,email})
+        if(data.success){
+          localStorage.setItem('token',data.token)
+          settoken(data.token)
+        }else{
+          toast.error(data.message)
+        }
+      }else{
+        const {data} =await axios.post(backendURL+'/api/user/login',{password,email})
+        if(data.success){
+          localStorage.setItem('token',data.token)
+          settoken(data.token)
+        }else{
+          toast.error(data.message)
+        }
+      }
+    }catch(error){
+      toast.error(error.message)
+    }
   }
 
 
   return (
-    <form className='min-h-[80vh] flex items-center' action="">
+    <form className='min-h-[80vh] flex items-center' onSubmit={submithandler}>
       <div className='flex flex-col gap-3 m-auto items-start p-8 sm:min-w-96 border border-blue-300 rounded-xl text-zinc-600 text-sm shadow-lg'>
         <p className='text-2xl font-semibold text-blue-600'>{state==='Sign Up'?'Create Account':'Login'}</p>
         <p>Please {state==='Sign Up'?'sign up':'log in'} to book appointment</p>
@@ -32,7 +58,7 @@ function Login() {
           <p>Password</p>
           <input className='border border-zinc-300 rounded w-full p-2 mt-1' type="password" onChange={(e)=>setpassword(e.target.value)} value={password} required />
         </div>
-        <button className='bg-blue-500 text-white w-full py-2 rounded-md text-base'>{state==='Sign Up'?'Create Account':'Login'}</button>
+        <button type='submit' className='bg-blue-500 text-white w-full py-2 rounded-md text-base'>{state==='Sign Up'?'Create Account':'Login'}</button>
 
         {
           state==='Sign Up'?

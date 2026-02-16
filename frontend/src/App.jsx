@@ -10,6 +10,7 @@ import MyAppointment from './Pages/MyAppointment'
 import Appointment from './Pages/Appointment.jsx'
 import Nav from './Components/Navbar.jsx'
 import Footer from './Components/Footer'
+import { ToastContainer, toast } from 'react-toastify';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
   const hideFooter = location.pathname === '/login'
   return (
     <div className='mx-4 sm:mx-[10%]'>
+      <ToastContainer/>
       <Nav/>
       <Routes>
         <Route path='/' element={<Home/>} />
