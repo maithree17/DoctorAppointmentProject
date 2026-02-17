@@ -9,10 +9,12 @@ function Navbar() {
 
   const [showmenu, setShowmenu] = useState(false);
   const {token,settoken}=useContext(AppContext)
+
   const logout=()=>{
     settoken(false)
     localStorage.removeItem('token')
   }
+  
 
   return (
     <div className="relative flex items-center justify-between text-sm py-3 px-4 md:px-10 mb-5 border-b border-gray-300">

@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../Context/AppContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
   const [state,setstate] =useState('Sign Up')
@@ -10,6 +11,8 @@ function Login() {
   const [name,setname] =useState('')
 
   const {token,settoken,backendURL} =useContext(AppContext)
+
+  const navigate=useNavigate()
 
   const submithandler= async (event)=>{
     event.preventDefault()
@@ -36,6 +39,13 @@ function Login() {
       toast.error(error.message)
     }
   }
+
+  useEffect(()=>{
+    if(token){
+      navigate('/')
+    }
+    
+  },[token])
 
 
   return (
