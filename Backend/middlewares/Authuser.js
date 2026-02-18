@@ -7,7 +7,7 @@ const Authuser= (req,res,next)=>{
            return  res.json({success:false,message:"Not authorized login"})
         }
         const decoded=jwt.verify(token,process.env.JWT_SECRET)
-        req.body.userId=decoded.id
+        req.userId=decoded.id
         next()
     }catch(error){
         console.log(error)

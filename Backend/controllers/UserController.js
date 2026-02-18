@@ -26,7 +26,8 @@ const RegisterUser=async (req,res)=>{
         const UserData={
             name,
             email,
-            password:hashedPassword
+            password:hashedPassword,
+
         }
 
         const newuser=new userModel(UserData)
@@ -65,7 +66,7 @@ const LoginUser=async(req,res)=>{
 //API to get user progile data,user login so sends token and access userid using that token
 const GetProfile=async(req,res)=>{
     try{
-        const {userId} =req.body
+        const userId =req.userId
         const userData=await userModel.findById(userId).select('-password')
 
         res.json({success:true,userData})
@@ -78,7 +79,8 @@ const GetProfile=async(req,res)=>{
 
 const UpdateProfile=async(req,res)=>{
     try{
-        const {userId,name,phone,address,dob,gender}=req.body
+        const userId = req.userId
+        const {name,phone,address,dob,gender}=req.body
         const imageFile=req.file
 
         if(!name||!phone||!address||!dob||!gender){
@@ -88,16 +90,17 @@ const UpdateProfile=async(req,res)=>{
         await userModel.findByIdAndUpdate(userId,{name,phone,address:JSON.parse(address),dob,gender})
         if(imageFile){
             //upload image to cloudinary
-            const imageUpload=await cloudinary.uploader(imageFile.path,{resource_type:'image'})
+            const imageUpload=await cloudinary.uploader.upload(imageFile.path,{resource_type:'image'})
             const imageURL=imageUpload.secure_url
 
             await userModel.findByIdAndUpdate(userId,{image:imageURL})
         }
 
-        res.json({success:true,messgae:"Profile updated"})
+        res.json({success:true,message:"Profile updated"})
     }catch(error){
         console.log(error)
        return  res.json({success:false,message:error.message}) 
     }
 }
+
 export {RegisterUser,LoginUser,GetProfile,UpdateProfile}

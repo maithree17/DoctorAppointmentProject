@@ -8,7 +8,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   const [showmenu, setShowmenu] = useState(false);
-  const {token,settoken}=useContext(AppContext)
+  const {token,settoken,userdata}=useContext(AppContext)
 
   const logout=()=>{
     settoken(false)
@@ -47,9 +47,9 @@ function Navbar() {
       {/* Right Side profile & menu */}
       <div className="flex items-center gap-4">
         {/* Profile (all screens) */}
-        {token ? (
+        {token && userdata ?(
           <div className="flex items-center gap-2 cursor-pointer group relative">
-            <img src={assets.profile_pic} className="w-14 rounded-full" />
+            <img src={userdata.image} className="w-14 rounded-full" />
             <img src={assets.dropdown_icon} className="w-2" />
 
             {/* Profile Dropdown */}
