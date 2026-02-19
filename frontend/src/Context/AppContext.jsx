@@ -61,7 +61,8 @@ const AppContextProvider =(props)=>{
         backendURL,
         userdata,
         setuserdata,
-        LoadUserProfileData
+        LoadUserProfileData,
+        getDoctorsData
     }
 
     return(

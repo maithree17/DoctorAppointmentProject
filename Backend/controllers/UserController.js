@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt'
 import userModel from '../models/usermodel.js'
 import jwt from "jsonwebtoken"
 import {v2 as cloudinary} from 'cloudinary'
+import doctorModel from '../models/doctormodel.js'
+import appointmentModel from '../models/Appointmentmodel.js'
 
 //API to register
 const RegisterUser=async (req,res)=>{
@@ -103,4 +105,65 @@ const UpdateProfile=async(req,res)=>{
     }
 }
 
-export {RegisterUser,LoginUser,GetProfile,UpdateProfile}
+//API to book appointment
+const bookAppointment =async(req,res)=>{
+    try{
+        const userId=req.userId
+        const {docId,slotDate,slotTime}=req.body
+        const docData=await doctorModel.findById(docId).select('-password')
+        if(!docData.available){
+            return res.json({success:false,message:'Doctor not available'})
+        }
+
+        let slots_booked=docData.slots_booked
+
+        if(slots_booked[slotDate]){
+            if(slots_booked[slotDate].includes(slotTime)){
+                return res.json({success:false,message:'Slot not avalable'})
+            }else{
+                slots_booked[slotDate].push(slotTime)
+            }
+        }else{
+            slots_booked[slotDate]=[]
+            slots_booked[slotDate].push(slotTime)
+        }
+
+        const userData=await userModel.findById(userId).select('-password')
+        delete docData.slots_booked
+
+        const appointment={
+            userId,
+            docId,
+            userData,
+            docData,
+            amount:docData.fees,
+            slotTime,
+            slotDate,
+            date:Date.now()
+        }
+
+        const newappointment=new appointmentModel(appointment)
+        await newappointment.save()
+
+        //Save new Slots data in docData
+        await doctorModel.findByIdAndUpdate(docId,{slots_booked})
+
+        res.json({success:true,message:'appointment booked'})
+    }catch(error){
+        console.log(error)
+       return  res.json({success:false,message:error.message})
+    }
+}
+
+//API to get myappointment
+const Myappointment=async(req,res)=>{
+    try{
+        const userId=req.userId
+        const userappointmentData=await appointmentModel.findById(userId)
+        res.json({success:true,userappointmentData})
+    }catch(error){
+        console.log(error)
+       return  res.json({success:false,message:error.message})
+    }
+}
+export {RegisterUser,LoginUser,GetProfile,UpdateProfile,bookAppointment,Myappointment}
