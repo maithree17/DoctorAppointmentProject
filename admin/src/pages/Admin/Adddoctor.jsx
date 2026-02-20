@@ -37,7 +37,7 @@ function Adddoctor() {
         formdata.append('experience',experience)
         formdata.append('about',about)
         formdata.append('fees',fees)
-        formdata.append('address',JSON.stringify({line1:address1,lin2:address2}))
+        formdata.append('address',JSON.stringify({line1:address1,line2:address2}))
 
         formdata.forEach((value,key)=>{
           console.log(`${key} - ${value}`)

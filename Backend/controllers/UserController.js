@@ -159,7 +159,7 @@ const bookAppointment =async(req,res)=>{
 const Myappointment=async(req,res)=>{
     try{
         const userId=req.userId
-        const userappointmentData=await appointmentModel.findById(userId)
+        const userappointmentData=await appointmentModel.find({userId})
         res.json({success:true,userappointmentData})
     }catch(error){
         console.log(error)
