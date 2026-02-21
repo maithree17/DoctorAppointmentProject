@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken"
 import {v2 as cloudinary} from 'cloudinary'
 import doctorModel from '../models/doctormodel.js'
 import appointmentModel from '../models/Appointmentmodel.js'
+import razorpay from 'razorpay'
 
 //API to register
 const RegisterUser=async (req,res)=>{
@@ -166,4 +167,60 @@ const Myappointment=async(req,res)=>{
        return  res.json({success:false,message:error.message})
     }
 }
-export {RegisterUser,LoginUser,GetProfile,UpdateProfile,bookAppointment,Myappointment}
+
+//API to cancel the appointment
+const cancelAppointment=async (req,res)=>{
+    try{
+        const userId=req.userId
+        const {appointmentId}=req.body
+
+        const appointmentData=await appointmentModel.findById(appointmentId)
+
+        //Verify appointment user
+        if(appointmentData.userId!==userId){
+            return res.json({success:false,message:'Unauthorized access'})
+        }
+
+        //cancelled is made true and removed from slotsbooked
+        await appointmentModel.findByIdAndUpdate(appointmentId,{cancelled:true})
+        const {docId,slotDate,slotTime}=appointmentData
+        const doctorData=await doctorModel.findById(docId)
+
+        let slots_booked=doctorData.slots_booked
+        slots_booked[slotDate]=slots_booked[slotDate].filter(e=>e!==slotTime)
+        await doctorModel.findByIdAndUpdate(docId,{slots_booked})
+
+        res.json({success:true,message:'Appointment cancelled'})
+
+    }catch(error){
+        console.log(error)
+       return  res.json({success:false,message:error.message})
+    }
+}
+
+const payment=async(req,res)=>{
+    try{
+        const userId=req.userId
+        const {appointmentId}=req.body
+
+        const appointmentdata=await appointmentModel.findOne({
+            _id:appointmentId,
+            userId,
+            cancelled:false
+        })
+
+        if(!appointmentdata){
+            return res.json({success:false,message:'Invalid appointment'})
+        }
+
+        await appointmentModel.findByIdAndUpdate(appointmentId,{payment:true})
+
+        res.json({success:true,message:'Payment completed successfully'})
+    }catch(error){
+        console.log(error)
+       return  res.json({success:false,message:error.message})
+    }
+}
+
+
+export {RegisterUser,LoginUser,GetProfile,UpdateProfile,bookAppointment,Myappointment,cancelAppointment,payment}

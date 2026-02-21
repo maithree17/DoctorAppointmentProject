@@ -4,7 +4,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 
 function MyAppointment() {
-  const { backendURL,token } = useContext(AppContext)
+  const { backendURL,token ,getDoctorsData} = useContext(AppContext)
 
   const [appointment,setappointment] =useState([])
 
@@ -15,6 +15,36 @@ function MyAppointment() {
         setappointment(data.userappointmentData.reverse())
         console.log(data.userappointmentData)
       }
+    }catch(error){
+      console.log(error)
+      toast.error(error.message)
+    }
+  }
+
+  const cancelAppointment=async(appointmentId)=>{
+    try{
+      // console.log(appointmentId)
+      const {data}=await axios.post(backendURL+'/api/user/cancelAppointment',{appointmentId},{headers:{token}})
+      if(data.success){
+        toast.success(data.message)
+        getDocAppointmentDetail()
+        getDoctorsData()
+      }else{
+        toast.error(data.message)
+      }
+    }catch(error){
+      console.log(error)
+      toast.error(error.message)
+    }
+  }
+
+  const payment=async(appointmentId)=>{
+    try{
+        const { data } = await axios.post(backendURL + '/api/user/payment', { appointmentId }, { headers: { token } })
+        if (data.success) {
+          toast.success('Payment marked as paid!')
+          getDocAppointmentDetail()
+        }
     }catch(error){
       console.log(error)
       toast.error(error.message)
@@ -55,10 +85,20 @@ function MyAppointment() {
             <div></div>
 
             {/* Action Buttons */}
-            <div className="flex sm:flex-col gap-3 justify-end">
-              <button className="px-4 py-2 text-sm rounded-md bg-blue-500 text-white hover:bg-blue-600 transition">Pay Online</button>
-              <button className="px-4 py-2 text-sm rounded-md border border-red-400 text-red-500 hover:bg-red-50 transition">Cancel Appointment</button>
+            <div className="flex sm:flex-col gap-3 justify-end sm:ml-auto">
+           {item.payment && (<div className="px-4 py-2 text-sm bg-green-500 text-white rounded-md text-center font-medium"> ✓ Payment Completed</div>)}
+
+
+          {item.cancelled && (<div className="px-4 py-2 text-sm rounded-md border border-red-400 text-red-500 bg-red-50 text-center font-medium">Appointment Cancelled </div> )}
+
+          {!item.payment && !item.cancelled && (
+          <>
+            <button onClick={() => payment(item._id)} className="px-4 py-2 text-sm rounded-md bg-blue-500 text-white hover:bg-blue-600 transition">Pay Online</button>
+            <button onClick={() => cancelAppointment(item._id)} className="px-4 py-2 text-sm rounded-md border border-red-400 text-red-500 hover:bg-red-50 transition">Cancel Appointment </button>
+          </>
+            )}
             </div>
+
           </div>
         ))}
       </div>
