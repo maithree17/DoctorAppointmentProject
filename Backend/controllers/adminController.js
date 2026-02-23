@@ -2,6 +2,7 @@ import validator from 'validator'
 import bcrypt from 'bcrypt'
 import {v2 as cloudinary} from 'cloudinary'
 import doctorModel from '../models/doctormodel.js'
+import userModel from '../models/usermodel.js'
 import jwt from "jsonwebtoken"
 import appointmentModel from '../models/Appointmentmodel.js'
 
@@ -99,4 +100,49 @@ const Allappointment=async(req,res)=>{
        return  res.json({success:false,message:error.message}) 
     }
 }
-export {addDoctor,LoginAdmin,AllDoctors,Allappointment}
+//API for cancel appointment
+const AdminCancelappointment=async (req,res)=>{
+    try{
+        const {appointmentId}=req.body
+
+        const appointmentData=await appointmentModel.findById(appointmentId)
+
+        //cancelled is made true and removed from slotsbooked
+        await appointmentModel.findByIdAndUpdate(appointmentId,{cancelled:true})
+        const {docId,slotDate,slotTime}=appointmentData
+        const doctorData=await doctorModel.findById(docId)
+
+        let slots_booked=doctorData.slots_booked
+        slots_booked[slotDate]=slots_booked[slotDate].filter(e=>e!==slotTime)
+        await doctorModel.findByIdAndUpdate(docId,{slots_booked})
+
+        res.json({success:true,message:'Appointment cancelled'})
+
+    }catch(error){
+        console.log(error)
+       return  res.json({success:false,message:error.message})
+    }
+}
+
+//API to get dashboard data for admin panel
+const AdminDashboard=async(req,res)=>{
+    try{
+        const doctors=await doctorModel.find({}).select('-password')
+        const users=await userModel.find({}).select('-password')
+        const appointments=await appointmentModel.find({})
+
+        const dashData={
+            doctors:doctors.length,
+            appointments:appointments.length,
+            patients:users.length,
+            latest_appointments:appointments.reverse().slice(0,5)
+        }
+
+        res.json({success:true,dashData})
+
+    }catch(error){
+       console.log(error)
+       return  res.json({success:false,message:error.message}) 
+    }
+}
+export {addDoctor,LoginAdmin,AllDoctors,Allappointment,AdminCancelappointment,AdminDashboard}

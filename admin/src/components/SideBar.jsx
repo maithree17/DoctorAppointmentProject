@@ -22,7 +22,7 @@ function SideBar() {
                 <p>DashBoard</p>
             </NavLink>
 
-            <NavLink to="/all-appointment" className={({ isActive }) =>
+            <NavLink to="/Allappointments" className={({ isActive }) =>
                     `flex items-center gap-3 px-6 py-3 mx-3 rounded-lg text-gray-600 font-medium transition-all duration-200
                     ${isActive 
                         ? "bg-blue-100 text-blue-700" 
