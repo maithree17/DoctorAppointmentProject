@@ -8,7 +8,7 @@ function SideBar() {
     const { atoken } = useContext(AdminContext)
 
   return (
-    <div className="w-64 min-h-screen bg-white border-r border-gray-200">
+    <div className="w-64 h-screen bg-white border-r border-gray-200">
 
     {atoken && (
         <ul className="mt-6 space-y-2">

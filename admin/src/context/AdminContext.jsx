@@ -62,6 +62,7 @@ const AdminContextProvider =(props)=>{
             if(data.success){
                 toast.success(data.message)
                 getAllapointments()
+                getDashboardData()
             }else{
                toast.error(data.message) 
             }
@@ -76,6 +77,7 @@ const AdminContextProvider =(props)=>{
             const {data}=await axios.get(backendURL+'/api/admin/admin-dashboard',{headers:{atoken}})
             if(data.success){
                 setDashdata(data.dashData)
+                // console.log(data.dashData)
             }else{
                toast.error(data.message) 
             }
