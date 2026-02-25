@@ -2,10 +2,12 @@ import React, { useContext } from 'react'
 import { assets } from '../assets/assets'
 import { AdminContext } from '../context/AdminContext'
 import {useNavigate} from 'react-router-dom'
+import { DoctorContext } from '../context/DoctorContext'
 
 function Navbar() {
 
   const { atoken, setatoken } = useContext(AdminContext)
+  const {dtoken}=useContext(DoctorContext)
   const navigate=useNavigate()
 
   const logout =()=>{
@@ -20,7 +22,8 @@ function Navbar() {
 
     <div className="flex items-center gap-4">
       <img src={assets.admin_logo} alt="Logo" className="h-20 w-auto object-contain"/>
-      <h1 className="text-2xl font-semibold text-gray-800">Admin Panel</h1>
+      {atoken?<h1 className="text-2xl font-semibold text-gray-800">Admin Panel</h1>
+      :<h1 className="text-2xl font-semibold text-gray-800">Doctor Panel</h1>}
     </div>
 
     <button onClick={logout} className="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-1.5 rounded-full font-medium transition">Logout</button>

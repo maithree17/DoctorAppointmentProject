@@ -2,8 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { AdminContext } from "../../context/AdminContext";
 
 function DoctorsList() {
-  const { doctors, atoken, getAlldoctors, changeAvailability } =
-    useContext(AdminContext);
+  const { doctors, atoken, getAlldoctors, changeAvailability } =useContext(AdminContext);
 
   useEffect(() => {
     if (atoken) {
@@ -32,6 +31,7 @@ function DoctorsList() {
                 <p className="text-gray-900 font-semibold mt-2">{doc.name} </p>
 
                 <p className="text-gray-600 text-sm">{doc.speciality}</p>
+                
               </div>
             </div>
           </div>

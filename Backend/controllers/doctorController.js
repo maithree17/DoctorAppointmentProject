@@ -52,4 +52,17 @@ const LoginDoctor = async (req, res) => {
   }
 };
 
-export { changeAvailability, DoctorList ,LoginDoctor};
+//Api to get all appointments of doctor
+const appointmentsDoctor=async(req,res)=>{
+  try{
+    const {docId}=req.body
+    const doctorappointments=await appointmentModel.find({docId})
+
+    res.json({success:true,doctorappointments})
+
+  }catch(error){
+    console.log(error);
+    return res.json({ success: false, message: error.message });
+  }
+}
+export { changeAvailability, DoctorList ,LoginDoctor,appointmentsDoctor};
