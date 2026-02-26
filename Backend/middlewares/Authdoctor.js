@@ -7,7 +7,7 @@ const Authdoctor= (req,res,next)=>{
            return  res.json({success:false,message:"Not authorized login"})
         }
         const decoded=jwt.verify(dtoken,process.env.JWT_SECRET)
-        req.body.docId=decoded.id
+        req.docId=decoded.id
         next()
     }catch(error){
         console.log(error)
