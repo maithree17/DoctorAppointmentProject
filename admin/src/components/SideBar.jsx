@@ -21,7 +21,7 @@ function SideBar() {
                         : "hover:bg-gray-100 hover:text-gray-800"}`
                 }>
                 <img src={assets.home_icon} alt="" className="w-5 h-5" />
-                <p>DashBoard</p>
+                <p className='hidden md:block'>DashBoard</p>
             </NavLink>
 
             <NavLink to="/Allappointments" className={({ isActive }) =>
@@ -31,7 +31,7 @@ function SideBar() {
                         : "hover:bg-gray-100 hover:text-gray-800"}`
                 }>
                 <img src={assets.appointment_icon} alt="" className="w-5 h-5" />
-                <p>Appointment</p>
+                <p className='hidden md:block'>Appointment</p>
             </NavLink>
 
             <NavLink to="/add-doctor" className={({ isActive }) =>
@@ -42,7 +42,7 @@ function SideBar() {
                 }
             >
                 <img src={assets.add_icon} alt="" className="w-5 h-5" />
-                <p>Add Doctor</p>
+                <p className='hidden md:block'> Add Doctor</p>
             </NavLink>
 
             <NavLink to="/doctor-list" className={({ isActive }) =>
@@ -69,7 +69,7 @@ function SideBar() {
                         : "hover:bg-gray-100 hover:text-gray-800"}`
                 }>
                 <img src={assets.home_icon} alt="" className="w-5 h-5" />
-                <p>DashBoard</p>
+                <p className='hidden md:block'>DashBoard</p>
             </NavLink>
 
             <NavLink to="/doctor-appointments" className={({ isActive }) =>
@@ -79,7 +79,7 @@ function SideBar() {
                         : "hover:bg-gray-100 hover:text-gray-800"}`
                 }>
                 <img src={assets.appointment_icon} alt="" className="w-5 h-5" />
-                <p>Appointment</p>
+                <p className='hidden md:block'>Appointment</p>
             </NavLink>
 
             <NavLink to="/doctor-profile" className={({ isActive }) =>
@@ -90,7 +90,7 @@ function SideBar() {
                 }
             >
                 <img src={assets.people_icon} alt="" className="w-5 h-5" />
-                <p>Profile</p>
+                <p className='hidden md:block'>Profile</p>
             </NavLink>
 
         </ul>
