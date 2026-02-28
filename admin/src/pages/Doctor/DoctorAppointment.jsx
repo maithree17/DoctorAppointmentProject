@@ -4,7 +4,7 @@ import { AppContext } from '../../context/AppContext'
 import { assets } from '../../assets/assets'
 
 function DoctorAppointment() {
-  const {dtoken,appointments,getDoctorappointments}=useContext(DoctorContext)
+  const {dtoken,appointments,getDoctorappointments,completeappointment,cancelappointment}=useContext(DoctorContext)
   const {calculateAge,currency}=useContext(AppContext)
 
   useEffect(()=>{
@@ -45,8 +45,8 @@ function DoctorAppointment() {
               <p className='text-gray-600'>{item.slotDate} at {item.slotTime}</p>
               <p className='text-gray-600'>{currency}{item.amount}</p>
               <div className='col-span-2 sm:col-span-1 flex items-center justify-center gap-3 mt-2 sm:mt-0'>
-                <img className='w-6 h-6 cursor-pointer hover:scale-110 transition' src={assets.cancel_icon} alt="" />
-                <img className='w-6 h-6 cursor-pointer hover:scale-110 transition' src={assets.tick_icon} alt="" />
+                <img onClick={()=>cancelappointment(item._id)} className='w-6 h-6 cursor-pointer hover:scale-110 transition' src={assets.cancel_icon} alt="" />
+                <img onClick={()=>completeappointment(item._id)} className='w-6 h-6 cursor-pointer hover:scale-110 transition' src={assets.tick_icon} alt="" />
               </div>
             </div>
           ))

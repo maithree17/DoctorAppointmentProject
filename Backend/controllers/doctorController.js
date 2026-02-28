@@ -70,7 +70,8 @@ const appointmentsDoctor=async(req,res)=>{
 //API to mark appointment completed completed
 const appointmentcomplete=async(req,res)=>{
   try{
-    const {docId,appointmentId}=req.body
+    const docId=req.docId
+    const {appointmentId}=req.body
     const appointmentData=appointmentModel.findById(appointmentId)
     if(appointmentData &&appointmentData.docId===docId){
       await appointmentModel.findByIdAndUpdate(appointmentId,{isComplete:true})
@@ -87,7 +88,8 @@ const appointmentcomplete=async(req,res)=>{
 //API to cancel appointment 
 const appointmentcancel=async(req,res)=>{
   try{
-    const {docId,appointmentId}=req.body
+    const docId=req.docId
+    const {appointmentId}=req.body
     const appointmentData=appointmentModel.findById(appointmentId)
     if(appointmentData &&appointmentData.docId===docId){
       await appointmentModel.findByIdAndUpdate(appointmentId,{cancelled:true})
