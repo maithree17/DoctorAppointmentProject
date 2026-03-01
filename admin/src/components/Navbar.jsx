@@ -7,13 +7,21 @@ import { DoctorContext } from '../context/DoctorContext'
 function Navbar() {
 
   const { atoken, setatoken } = useContext(AdminContext)
-  const {dtoken}=useContext(DoctorContext)
+  const {dtoken,setdtoken}=useContext(DoctorContext)
   const navigate=useNavigate()
 
   const logout =()=>{
     navigate('/')
-    atoken && setatoken('')
-    atoken && localStorage.removeItem('atoken')
+
+    if(atoken){
+      setatoken('')
+      localStorage.removeItem('atoken')
+    }
+
+    if(dtoken){
+      setdtoken('')
+      localStorage.removeItem('dtoken')
+    }
   }
 
   return (

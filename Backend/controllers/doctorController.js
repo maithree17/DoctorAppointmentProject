@@ -72,9 +72,9 @@ const appointmentcomplete=async(req,res)=>{
   try{
     const docId=req.docId
     const {appointmentId}=req.body
-    const appointmentData=appointmentModel.findById(appointmentId)
+    const appointmentData=await appointmentModel.findById(appointmentId)
     if(appointmentData &&appointmentData.docId===docId){
-      await appointmentModel.findByIdAndUpdate(appointmentId,{isComplete:true})
+      await appointmentModel.findByIdAndUpdate(appointmentId,{isCompleted:true})
       return res.json({success:true,message:'Appointment complete'})
     }else{
       res.json({success:false,message:'Mark failed'})
@@ -90,7 +90,7 @@ const appointmentcancel=async(req,res)=>{
   try{
     const docId=req.docId
     const {appointmentId}=req.body
-    const appointmentData=appointmentModel.findById(appointmentId)
+    const appointmentData=await appointmentModel.findById(appointmentId)
     if(appointmentData &&appointmentData.docId===docId){
       await appointmentModel.findByIdAndUpdate(appointmentId,{cancelled:true})
       return res.json({success:true,message:'Appointment cancelled'})
@@ -102,4 +102,67 @@ const appointmentcancel=async(req,res)=>{
     return res.json({ success: false, message: error.message });
   }
 }
-export { changeAvailability, DoctorList ,LoginDoctor,appointmentsDoctor,appointmentcomplete,appointmentcancel};
+
+//API to get dashboarddata for doctor panel
+const doctorDashboard=async(req,res)=>{
+  try{
+    const docId=req.docId
+    const appointments=await appointmentModel.find({docId})
+    let earning=0
+    appointments.map((item)=>{
+      if(item.isCompleted||item.payment){
+        earning+=item.amount
+      }
+    }
+    )
+    let patients=[]
+    appointments.map((item)=>{
+      if(!patients.includes(item.userId)){
+        patients.push(item.userId)
+      }
+    })
+
+    const dashData={
+      earning,
+      appointments:appointments.length,
+      patients:patients.length,
+      latestAppointment:appointments.reverse().slice(0,5)
+    }
+
+    res.json({success:true,dashData})
+
+  }catch(error){
+    console.log(error);
+    return res.json({ success: false, message: error.message });
+  }
+}
+
+//API to getdoctor profile for Doctor panel
+const doctorProfile =async (req,res)=>{
+  try{
+    const docId=req.docId
+    const profileData=await doctorModel.findById(docId).select('-password')
+
+    res.json({success:true,profileData})
+
+  }catch(error){
+    console.log(error);
+    return res.json({ success: false, message: error.message });
+  }
+}
+
+//API to update doctor profile
+const UpdateProfile=async(req,res)=>{
+  try{
+    const docId=req.docId
+    const {fees,address,available}=req.body
+
+    await doctorModel.findByIdAndUpdate(docId,{fees,address,available})
+    res.json({success:true,message:'Profile Updated'})
+
+  }catch(error){
+    console.log(error);
+    return res.json({ success: false, message: error.message });
+  }
+}
+export { changeAvailability, DoctorList ,LoginDoctor,appointmentsDoctor,appointmentcomplete,appointmentcancel,doctorDashboard,doctorProfile,UpdateProfile};
