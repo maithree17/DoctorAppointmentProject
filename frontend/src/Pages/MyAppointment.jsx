@@ -65,45 +65,77 @@ function MyAppointment() {
 
       <div className="space-y-6">
         {appointment.map((item, idx) => (
-          <div key={idx} className="flex flex-col sm:flex-row gap-6 bg-white border rounded-xl p-5 shadow-sm hover:shadow-md transition">
-
+          <div
+            key={idx}
+            className="flex flex-col sm:flex-row gap-6 bg-white border rounded-xl p-5 shadow-sm hover:shadow-md transition"
+          >
             {/* Doctor Image */}
             <div className="flex-shrink-0">
-              <img src={item.docData.image} alt={item.docData.name} className="w-28 h-28 rounded-lg object-cover border"/>
+              <img
+                src={item.docData.image}
+                alt={item.docData.name}
+                className="w-28 h-28 rounded-lg object-cover border"
+              />
             </div>
 
             {/* Doctor Info */}
             <div className="flex-1 text-gray-700">
-              <p className="text-lg font-semibold text-gray-900">{item.docData.name}</p>
-              <p className="text-sm text-blue-600 mb-2">{item.docData.speciality}</p>
+              <p className="text-lg font-semibold text-gray-900">
+                {item.docData.name}
+              </p>
+              <p className="text-sm text-blue-600 mb-2">
+                {item.docData.speciality}
+              </p>
               <p className="text-sm font-medium">Address:</p>
-              <p className="text-sm text-gray-600">{item.docData.address.line1}</p>
-              <p className="text-sm text-gray-600">{item.docData.address.line2}</p>
-              <p className="text-sm mt-3"><span className="font-medium">Date & Time:</span>{' '}<span className="text-gray-600">{item.slotDate} | {item.slotTime}</span></p>
+              <p className="text-sm text-gray-600">
+                {item.docData.address.line1}
+              </p>
+              <p className="text-sm text-gray-600">
+                {item.docData.address.line2}
+              </p>
+              <p className="text-sm mt-3">
+                <span className="font-medium">Date & Time:</span>{" "}
+                <span className="text-gray-600">
+                  {item.slotDate} | {item.slotTime}
+                </span>
+              </p>
             </div>
 
             <div></div>
 
             {/* Action Buttons */}
             <div className="flex sm:flex-col gap-3 justify-end sm:ml-auto">
-           {item.payment && (<div className="px-4 py-2 text-sm bg-green-500 text-white rounded-md text-center font-medium"> ✓ Payment Completed</div>)}
+              {/* Cancelled */}
+              {item.cancelled && (
+                <div className="px-4 py-2 text-sm rounded-md border border-red-400 text-red-500 bg-red-50 text-center font-medium">Appointment Cancelled</div>
+              )}
 
+              {/* Completed */}
+              {!item.cancelled && item.isCompleted && (
+                <div className="px-4 py-2 text-sm bg-gray-600 text-white rounded-md text-center font-medium">✓ Appointment Completed</div>
+              )}
 
-          {item.cancelled && (<div className="px-4 py-2 text-sm rounded-md border border-red-400 text-red-500 bg-red-50 text-center font-medium">Appointment Cancelled </div> )}
+              {/* Payment Completed */}
+              {!item.cancelled && !item.isCompleted && item.payment && (
+                <div className="px-4 py-2 text-sm bg-green-500 text-white rounded-md text-center font-medium">✓ Payment Completed</div>
+              )}
 
-          {!item.payment && !item.cancelled && (
-          <>
-            <button onClick={() => payment(item._id)} className="px-4 py-2 text-sm rounded-md bg-blue-500 text-white hover:bg-blue-600 transition">Pay Online</button>
-            <button onClick={() => cancelAppointment(item._id)} className="px-4 py-2 text-sm rounded-md border border-red-400 text-red-500 hover:bg-red-50 transition">Cancel Appointment </button>
-          </>
-            )}
+              {/* Show Buttons Only If Active */}
+              {!item.cancelled && !item.isCompleted && (
+                <>
+                  {!item.payment && (
+                    <button onClick={() => payment(item._id)} className="px-4 py-2 text-sm rounded-md bg-blue-500 text-white hover:bg-blue-600 transition">Pay Online</button>
+                  )}
+
+                  <button onClick={() => cancelAppointment(item._id)} className="px-4 py-2 text-sm rounded-md border border-red-400 text-red-500 hover:bg-red-50 transition">Cancel Appointment</button>
+                </>
+              )}
             </div>
-
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 export default MyAppointment

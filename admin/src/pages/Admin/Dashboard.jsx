@@ -59,11 +59,14 @@ function Dashboard() {
                     <p className="text-sm text-gray-500">{appointmnet.slotDate}</p>
                   </div>
                 </div>
-                {appointmnet.cancelled ? (
-                  <p className="text-red-500 text-xs font-semibold bg-red-50 px-3 py-1 rounded-full">Cancelled</p>
-                ) : (
-                  <img  onClick={() => cancelAppointment(appointmnet._id)} className="w-10 cursor-pointer" src={assets.cancel_icon} alt="cancelimg" />
-                )}
+                {
+                  appointmnet.cancelled?
+                  <p className='text-red-400 text-xs font-medium'>Cancelled</p>
+                  :appointmnet.isCompleted?
+                  <p className='text-green-400 text-xs font-medium'>Completed</p>
+                  :
+                  <img onClick={()=>cancelAppointment(appointmnet._id)} className='w-10 cursor-pointer' src={assets.cancel_icon} alt="cancelimg" />
+                }
               </div>
             ))}
           </div>

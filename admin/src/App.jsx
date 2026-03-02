@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { AdminContext } from './context/AdminContext';
 import Navbar from './components/Navbar';
 import SideBar from './components/SideBar';
-import {Routes,Route} from 'react-router-dom'
+import {Routes,Route,Navigate} from 'react-router-dom'
 import Dashboard from './pages/Admin/Dashboard';
 import AllAppointment from './pages/Admin/AllAppointment';
 import Adddoctor from './pages/Admin/Adddoctor';
@@ -27,14 +27,15 @@ function App() {
       <div className='flex items-start'>
         <SideBar/>
         <Routes>
+           <Route  path='/'  element={ atoken ? <Navigate to="/admin-dashboard" /> : <Navigate to="/doctor-dashboard" />} />
           {/* Admin Route*/}
-          <Route path='/' element={<></>}/>
           <Route path='/admin-dashboard' element={<Dashboard/>}/>
           <Route path='/Allappointments' element={<AllAppointment/>}/>
           <Route path='/add-doctor' element={<Adddoctor/>}/>
           <Route path='/doctor-list' element={<DoctorsList/>}/>
 
           {/*Doctor Route */}
+          
           <Route path='/doctor-dashboard' element={<DoctorDashboard/>}/>
           <Route path='/doctor-appointments' element={<DoctorAppointment/>}/>
           <Route path='/doctor-profile' element={<DoctorProfile/>}/>

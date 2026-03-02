@@ -74,6 +74,38 @@ const getDashData=async()=>{
     }
 }
 
+const getProfiledata=async()=>{
+    try{
+        const {data}=await axios.get(backendURL+'/api/doctor/profile',{headers:{dtoken}})
+
+        if(data.success){
+            setprofileData(data.profileData)
+            console.log(data.profileData)
+        }else{
+          toast.error(data.message)  
+        }
+
+    }catch(error){
+       console.log(error)
+        toast.error(error.message)  
+    }
+}
+
+const updateProfile = async (profileData) => {
+  try {
+    const { data } = await axios.post(backendURL + '/api/doctor/update-profile',{fees: profileData.fees,address: profileData.address,available: profileData.available},{ headers: { dtoken } })
+    if (data.success) {
+      toast.success(data.message)
+      getProfiledata()
+    } else {
+      toast.error(data.message)
+    }
+
+  } catch (error) {
+    console.log(error)
+    toast.error(error.message)
+  }
+}
 
     const value={
         dtoken,
@@ -86,7 +118,11 @@ const getDashData=async()=>{
         cancelappointment,
         dashData,
         setdashData,
-        getDashData
+        getDashData,
+        profileData,
+        setprofileData,
+        getProfiledata,
+        updateProfile
     }
 
     return (
